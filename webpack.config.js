@@ -1,12 +1,21 @@
+var webpack = require('webpack');
+
 module.exports = {
   devtool: 'inline-source-map', //keep track the error. show original file instead of bundle.js
-  entry: './client/client.js',
+  entry: [
+    'webpack-hot-middleware/client',
+    './client/client.js'
+  ],
   output: {
-    // path: './dist',
-    path: __dirname + '/dist/',
+    path: require("path").resolve("./dist"),
     filename: 'bundle.js',
     publicPath: '/'
   },
+  plugins: [
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin()
+  ],
   module: {
     loaders: [
       {
@@ -14,39 +23,11 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /node_modules/,
         query: { //same as setup .babelrc file. just different way
-          presets: ['react', 'es2015']
+          presets: ['react', 'es2015', 'react-hmre']
           //babel-preset-react: convert jsx to js
-          //babel-preset-es2015: covert ES6 to ES5
+         //babel-preset-es2015: covert ES6 to ES5
         }
       }
     ]
   }
-};
-
-/*
-module.exports = {
-    entry: "./src/js/main.js",
-    output: {
-        path:__dirname+ '/dist/',
-        filename: "bundle.js",
-        publicPath: '/'
-    },
-    devServer: {
-        inline: false,
-        contentBase: "./dist",
-    },
-    module: {
-        loaders: [
-            {
-                test: /\.jsx?$/,
-                exclude:/(node_modules|bower_components)/,
-                loader: 'babel-loader',
-                query: {
-                    presets: ['es2015', 'react']
-                }
-            }
-        ]
-    }
-
-};
-*/
+}
