@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
+import TextInput from './TextInput';
 
 class App extends Component{
-  // constructor(){
-  //   super();
-  // }
+  constructor(){
+    super();
+  }
 
   render(){
-    return <div>This is React App</div>;
+    return (
+      <div className="main-text">
+        <TextInput />
+      </div>
+    );
   }
 }
 
