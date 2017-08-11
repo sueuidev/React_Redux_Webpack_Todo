@@ -1,6 +1,21 @@
-import { createStore } from 'redux';
-import reducer from './reducer';
+import { applyMiddleware, compose, createStore } from 'redux';
+import rootReducer from './reducers';
+import logger from 'redux-logger'
 
-export default function configStore(initState = { todos: []}) {
-  return createStore(reducer, initState)
+const middleware = [ logger ];
+let finalCreateStore = compose(
+    applyMiddleware(...middleware)
+  )(createStore)
+
+export default function configStore(initState = { todos: [], user: {}}) {
+  return finalCreateStore(rootReducer, initState)
 }
+
+
+// export default function configStore(initState = { todos: [], user: {}}) {
+//   return createStore(rootReducer, initState)
+// }
+
+// export default function configStore(initState = { todos: []}) {
+//   return createStore(reducer, initState)
+// }
